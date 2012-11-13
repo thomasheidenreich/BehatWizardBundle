@@ -1,10 +1,14 @@
 {
-    "name": "halleck45/behat-wizard-bundle",
+    "name": "ThomasHeidenreich/behat-wizard-bundle",
     "description": "This bundle provides a graphical interface to manage your features",
     "keywords": ["behat", "gui"],
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
+    {
+        "name": "Thomas Heidenreich",
+        "homepage": ""
+    },
     {
         "name": "Jean-François Lépine",
         "homepage": "http://blog.lepine.pro"
