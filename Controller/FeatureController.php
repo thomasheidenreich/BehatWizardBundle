@@ -72,6 +72,42 @@ class FeatureController extends ContainerAware
             , 'form' => $form->createView(),
         );
     }
+    
+    /**
+     * @Template
+     */
+    public function showLogAction($feature)
+    {
+        $repository = $this->container->get('hbt.feature.repository');
+        $feature = $repository->loadFeatureByHash($feature);
+        if (is_null($feature)) {
+            echo "Feature not found!";
+            exit();
+        }
+         
+        $testcases = $feature->getReport()->listTestCases();
+        $scenarios = $feature->getGherkin()->getScenarios();
+         
+        $results = array();
+        for ( $i = 0; $i < sizeof($scenarios); $i++){
+            $results[$i]['scenario'] = $scenarios[$i];
+            $results[$i]['testcase'] = $testcases[$i];
+        }
+         
+        exec("pwd", $pwd);
+    
+        $form = $this->container->get('form.factory')->create(new FeatureType(), $feature);
+        $request = $this->container->get('request');
+    
+        return array(
+            'feature' => $feature
+            , 'gherkin' => $feature->getGherkin()
+            , 'report' => $feature->getReport()
+            , 'results' => $results
+             
+            , 'form' => $form->createView(),
+        );
+    }
 
     public function removeAction($feature)
     {

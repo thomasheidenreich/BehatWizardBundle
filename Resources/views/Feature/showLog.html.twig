@@ -1,0 +1,47 @@
+{% extends 'HalBehatWizardBundle::base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+    <h3>{{ feature.getGherkin().getTitle() }}</h3>
+    
+    {% if feature.getGherkin().getTags() | length > 0 %}
+	    <strong>Tags:</strong>
+	      
+	    {% for tag in feature.getGherkin().getTags() %}
+			@{{ tag }}
+	    {% endfor %}
+    {% endif %}
+    <br/><br/>
+    <h4>Description:</h4> 
+    {{ feature.getGherkin().getDescription() | nl2br }}
+    
+    {% for result in results %}
+		<hr/>
+		{% if  result['testcase'].type == 'success' %}<h5 class="testcase success">{% endif %}
+		{% if  result['testcase'].type == 'failed' %}<h5 class="testcase failed">{% endif %}
+		{{ result['scenario'].getTitle() }}</h5>
+		<div style="padding-left:3em">
+		{% for step in result['scenario'].getSteps() %}
+			{{ step.getText() | nl2br }}<br/>
+		{% endfor %}
+		
+		{% if result['testcase'].type == 'failed' %}
+		<br/>
+		<span style="color:red">
+			<strong>Failure:</strong> {{ result['testcase'].failure.attributes().message }}
+		</span>
+		{% endif %}
+		</div>		
+	{% endfor %}
+    
+    
+    
+    </div>
+    
+</div>
+
+
+{% endblock %}
+
